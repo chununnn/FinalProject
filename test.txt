@@ -1,2 +1,2 @@
 //test
-Allen Lai says hi. //test
+Alan Lai says hi.
