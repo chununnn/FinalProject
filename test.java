@@ -4,7 +4,11 @@ public class test {
     }
 
     public static int max(int a, int b){
+
+        System.out.print("  ");
+
         // testtsettesttset
+
         //@return max(a,b);
         if((a > b) == true) {
             return 1;
