@@ -6,7 +6,11 @@ public class test {
     public static int max(int a, int b){
         
         //@return max(a,b);
-        
-        return 0;
+        if((a > b) == true) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
     }
 }
