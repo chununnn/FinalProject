@@ -24,18 +24,23 @@ public class Window extends JFrame implements KeyListener{
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT){ // 往左移動
             keyReturn = 1;
+            System.out.println(1);
         }else if (e.getKeyCode() == KeyEvent.VK_RIGHT){ // 往右移動
             keyReturn = 2;
+            System.out.println(2);
         }else{
             keyReturn = 0;
+            System.out.println(0);
         }
     }
     public void keyReleased(KeyEvent e) {
         keyReturn = 0;
+        System.out.println(0);
     }
     public int returnKey(){
         return keyReturn;
     }
+    
     
 }
 
