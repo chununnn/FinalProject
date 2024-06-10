@@ -1,33 +1,14 @@
 /*
- * Aiaplane 是我目前暫定玩家飛機的類別，之後等寫好之後我在改成寫好的 
+ *  
  * Window(String 視窗標題,int 視窗長度,int 視窗寬度)
  * returnKey();   回傳鍵盤輸入 1是左鍵 2是右鍵 0是沒有輸入或是左右鍵之外的輸入
  */
 import javax.swing.*;
 import java.awt.event.*;
-class Airplane extends JPanel{
-    Window window;
-    int keyReturn;
-    Airplane(Window w){
-        this.window = w;
-    }
-    public void KeyPressed(KeyEvent e) {  // 鍵盤按下時，移動
-        if (e.getKeyCode() == KeyEvent.VK_LEFT){ // 往左移動
-            keyReturn = 1;
-        }else if (e.getKeyCode() == KeyEvent.VK_RIGHT){ // 往右移動
-            keyReturn = 2;
-        }else{
-            keyReturn = 0;
-        }
-    }
 
-    public void KeyReleased(KeyEvent e) { // 鍵盤放開時，不移動
-        keyReturn = 0;
-    }
-}
 public class Window extends JFrame implements KeyListener{
-    String key;
-    Airplane airplane = new Airplane(this);
+    int keyReturn;
+    
     Window(String title,int width,int height){
         this.setTitle(title); //視窗標題
         this.setVisible(true); // 顯示視窗
@@ -41,13 +22,19 @@ public class Window extends JFrame implements KeyListener{
         
     }
     public void keyPressed(KeyEvent e) {
-        airplane.KeyPressed(e);
+        if (e.getKeyCode() == KeyEvent.VK_LEFT){ // 往左移動
+            keyReturn = 1;
+        }else if (e.getKeyCode() == KeyEvent.VK_RIGHT){ // 往右移動
+            keyReturn = 2;
+        }else{
+            keyReturn = 0;
+        }
     }
     public void keyReleased(KeyEvent e) {
-        airplane.KeyReleased(e);
+        keyReturn = 0;
     }
-    public int retuenKey(){
-        return this.airplane.keyReturn;
+    public int returnKey(){
+        return keyReturn;
     }
     
 }
