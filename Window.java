@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class Window extends JFrame implements KeyListener{
-    int keyReturn;
+    private int keyReturn;
     
     Window(String title,int width,int height){
         this.setTitle(title); //視窗標題
