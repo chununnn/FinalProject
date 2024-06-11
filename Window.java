@@ -1,3 +1,10 @@
+/*
+ * keyReturn代表使用者輸入 1是左鍵 2是右鍵 0是其他或是無輸入
+ * bloodMinus()會執行bloodMinusOne()並且顯限於螢幕上，讀去血量是以第一個blood為基準 
+ */
+
+
+
 import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.event.*;
@@ -25,13 +32,6 @@ public class Window extends JFrame implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) { // 左键
             keyReturn = 1;            
-/////////////////////////////////////////////////////////////////      扣血量的程式，之後把裡面這段移過去      
-            bloods[0].bloodMinusOne();
-            int index = bloods[0].getBlood();  //以第一個blood為基準
-            if(index == -1){
-                //血量已經歸零
-            }else{bloods[index].eliminate();}
-////////////////////////////////////////////////////////////////
             System.out.println(1);
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) { // 右键
             keyReturn = 2;
@@ -59,6 +59,14 @@ public class Window extends JFrame implements KeyListener {
         for(Blood blood : bloods){
             blood.draw(g);
         }
+    }
+
+    public void bloodMinus(){
+            bloods[0].bloodMinusOne();
+            int index = bloods[0].getBlood();  //以第一個blood為基準
+            if(index == -1){
+                //血量已經歸零
+            }else{bloods[index].eliminate();}
     }
 
     
