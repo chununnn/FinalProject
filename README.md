@@ -4,17 +4,20 @@ to: 主程式
 
 to: 玩家飛機
 類別名稱請取Plane
-請實作getBound(), 能夠獲得Rectangle類別的玩家飛機（就是當初討論的碰撞判定範圍的意思） ＊參考：https://hackmd.io/@tiffany0226/java_game
+請實作getBound(), 回傳Rectangle類別的玩家飛機（就是當初討論的碰撞判定範圍的意思） ＊參考：https://hackmd.io/@tiffany0226/java_game
 
 to: 子彈
 類別名稱請取Bullet
-請實作getBound(), 能夠獲得Rectangle類別的子彈
+請實作getBound(), 回傳Rectangle類別的子彈
 
 to: 落石
 類別名稱請取Enemy
-請實作getBound(), 能夠獲得Rectangle類別的落石
+請實作getBound(), 回傳Rectangle類別的落石
+請實作EBloodMinusOne(), 能夠將敵方血量扣一
 
 to: 視窗
+類別名稱請取
+請實作上邊界與下邊界的getBoundUp()與getBoundDown(), 回傳Rectangle類別的上邊界與下邊界
 
 to: 血量
 請實作bloodMinusOne(), 能夠扣一單位血量的method
