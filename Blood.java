@@ -1,5 +1,10 @@
-import javax.swing.*;
+/*
+ * bloodMinusOne() 會把血量-1並看血量是否歸零
+ * eliminate()會把球改成灰色
+ */
 
+
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
