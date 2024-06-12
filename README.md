@@ -1,5 +1,7 @@
 # FinalProject
 
+**有要出現在螢幕上的物件要寫一個屬性boolean visible 我才能在window控制他是否要出現!!!
+
 to: 主程式
 
 to: 玩家飛機
