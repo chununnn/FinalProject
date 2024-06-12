@@ -22,8 +22,8 @@ to: 視窗
 請實作上邊界與下邊界的getBoundUp()與getBoundDown(), 回傳Rectangle類別的上邊界與下邊界
 
 to: 血量
-請實作bloodMinusOne(), 能夠扣一單位血量的method
-請實作getBlood(), 能夠獲得當前血量的method
+//請實作bloodMinusOne(), 能夠扣一單位血量的method
+//請實作getBlood(), 能夠獲得當前血量的method
 
 to: 開始畫面
 
