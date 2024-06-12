@@ -4,6 +4,11 @@ public class AirplaneBoomBoom {
     public static void main(String[] args) {
         Window window = new Window("AirplaneBoomBoom", 400, 600);
 
+        if(window.returnKey() == 1 || window.returnKey() == 2) {
+            Plane plane = new Plane(window);
+            Blood blood = new Blood();
+        }
+
         //in game
         while(blood.getBlood() != 0) {
             /*
