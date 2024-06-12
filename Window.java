@@ -1,5 +1,6 @@
 /*
  * keyReturn代表使用者輸入 1是左鍵 2是右鍵 0是其他或是無輸入
+ * returnKey()回傳輸入
  * bloodMinus()會執行bloodMinusOne()並且顯限於螢幕上，讀去血量是以第一個blood為基準 
  */
 
@@ -12,6 +13,7 @@ import java.awt.event.*;
 public class Window extends JFrame implements KeyListener {
     private int keyReturn;
     private Blood[] bloods;
+    private Score score;
     Window(String title, int width, int height) {
         this.setTitle(title); // 窗口标题
         this.setSize(width, height); // 窗口大小
@@ -21,6 +23,7 @@ public class Window extends JFrame implements KeyListener {
         bloods =new Blood[]{new Blood(20),
                  new Blood(50),
                  new Blood(80)};
+        score = new Score(0);
         
         
         this.setVisible(true); // 显示窗口
@@ -40,13 +43,13 @@ public class Window extends JFrame implements KeyListener {
             keyReturn = 0;
             System.out.println(0);
         }
-        repaint(); // 重新绘制窗口
+        
     }
 
     public void keyReleased(KeyEvent e) {
         keyReturn = 0;
         System.out.println(0);
-        repaint(); // 重新绘制窗口
+        
     }
 
     public int returnKey() {
@@ -59,6 +62,7 @@ public class Window extends JFrame implements KeyListener {
         for(Blood blood : bloods){
             blood.draw(g);
         }
+        score.draw(g);
     }
 
     public void bloodMinus(){
@@ -68,7 +72,13 @@ public class Window extends JFrame implements KeyListener {
                 //血量已經歸零
             }else{bloods[index].eliminate();}
     }
-
+    public void scorePlus(){
+        score.scorePlus();
+    }
+    public static void main(String[] args) {
+        new Window("test",1080,720);
+        
+    }
     
 }
 
