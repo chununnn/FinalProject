@@ -36,6 +36,9 @@ class Blood {
     public int getBlood() {
         return this.blood;
     }
+    public void reset(){
+        this.blood = 3;
+    }
 
     // 绘制血量对象
     public void draw(Graphics g) {

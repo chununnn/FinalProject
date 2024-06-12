@@ -13,6 +13,9 @@ public class Score extends JPanel{
         this.score = init_score;
     }
     
+    public void resetScore(){
+        this.score = 0;
+    }
 
     public void scorePlus(){
         score += 1;
