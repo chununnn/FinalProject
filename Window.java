@@ -21,6 +21,7 @@ public class Window extends JFrame implements KeyListener {
     private Button close;
     Plane plane = new Plane(this);
     Enemy enemy = new Enemy(this);
+    Bullet bullet = new Bullet();
 
     Window(String title) {
         this.setTitle(title); // 視窗標題
@@ -60,12 +61,14 @@ public class Window extends JFrame implements KeyListener {
     
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) { // 左
+            plane.keyPressedLeft(e);
             keyReturn = 1;            
             System.out.println(1);
             bloodMinus();
             repaint();
             
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) { // 右
+            plane.keyPressedRight(e);
             keyReturn = 2;
             System.out.println(2);
         } else {
@@ -76,6 +79,7 @@ public class Window extends JFrame implements KeyListener {
     }
 
     public void keyReleased(KeyEvent e) {
+        plane.keyReleased(e);
         keyReturn = 0;
         System.out.println(0);
         
@@ -98,6 +102,7 @@ public class Window extends JFrame implements KeyListener {
 
         plane.paint(g2d);
         enemy.paint(g2d);
+        bullet.paint(g2d);
     }
 
     public void bloodMinus(){
@@ -109,9 +114,17 @@ public class Window extends JFrame implements KeyListener {
                 this.close.setVisible(true);
             }
     }
+
+    /*public void move() {
+        bullet.moveBullet();
+        enemy.moveEnemy();
+    }*/
     
-    public static void main(String[] args) {
-        new Window("test");
+    public static void main(String[] args) throws InterruptedException {
+        /*Window window = */new Window("test");
+        /*while (true) {
+            window.move();
+        }*/
         
     }
     

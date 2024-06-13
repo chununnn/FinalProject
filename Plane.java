@@ -7,8 +7,8 @@ import java.awt.event.KeyEvent;
 public class Plane extends JPanel {
     int planeWidth = 60; //飛機大小
     int planeHeight = 80;
-    int x = (1080 - planeWidth) / 2; //飛機初始位置
-    int y = 720 - planeHeight - 10;
+    public int x = (1080 - planeWidth) / 2; //飛機初始位置
+    public int y = 720 - planeHeight - 10;
     private Window window;
     private Image image;
 
@@ -19,25 +19,28 @@ public class Plane extends JPanel {
     }
 
     // 鍵盤輸入要有錯，我要改
-    int xa = 0;
 
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            xa = -200;
-        } 
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            xa = 200;
-        } 
+    public void keyPressedLeft(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case 37: setLocation(x - 2, y);
+                break;
+        }
+    }
+
+    public void keyPressedRight(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case 39: setLocation(x + 2, y);
+        }
     }
 
     public void keyReleased(KeyEvent e) {
-        xa = 0;
+        //xa = 0;
     }
 
     public void movePlane() {
-        if (x + xa < window.getWidth() - planeWidth && x + xa > 0) {
-            x += xa;
-        }
+        //if (x + xa < window.getWidth() - planeWidth && x + xa > 0) {
+            //x += xa;
+        //}
     }
 
     public void paint(Graphics2D g) {
