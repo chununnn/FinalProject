@@ -7,8 +7,8 @@ import java.awt.event.KeyEvent;
 public class Plane extends JPanel {
     int planeWidth = 60; //飛機大小
     int planeHeight = 80;
-    int x = (1600 - planeWidth) / 2; //飛機初始位置
-    int y = 1200 - planeHeight - 200;
+    int x = (1080 - planeWidth) / 2; //飛機初始位置
+    int y = 720 - planeHeight - 10;
     private Window window;
     private Image image;
 
@@ -18,6 +18,7 @@ public class Plane extends JPanel {
         image = icon.getImage();
     }
 
+    // 鍵盤輸入要有錯，我要改
     int xa = 0;
 
     public void keyPressed(KeyEvent e) {
