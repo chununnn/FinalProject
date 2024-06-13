@@ -75,7 +75,7 @@ public class Window extends JFrame implements KeyListener {
         
         genTimer.start();
         
-         paintTimer = new Timer(100, new ActionListener() {
+         paintTimer = new Timer(16, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(Enemy enemy : Window.this.enemies) {
