@@ -83,6 +83,7 @@ public class Window extends JFrame implements KeyListener {
                     //System.err.println("Moving.");
                 }
                 repaint();
+                System.err.println("time delay is 16.");
             }
         });
 
