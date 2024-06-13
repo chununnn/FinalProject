@@ -16,6 +16,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Window extends JFrame implements KeyListener {
     private int keyReturn;
     private Blood[] bloods;
@@ -26,7 +27,7 @@ public class Window extends JFrame implements KeyListener {
     private Plane plane;
     private List<Enemy> enemies;
     private List<Bullet> bullets;
-
+    long lastTime = 0;
     private Timer genTimer;
     private Timer paintTimer;
 
@@ -63,27 +64,42 @@ public class Window extends JFrame implements KeyListener {
         this.setVisible(true); // 顯示視窗
         //test
         this.enemies = new ArrayList<>();
-        genTimer = new Timer(500, new ActionListener() {
+        
+        genTimer = new Timer(6000, new ActionListener() {
             @Override
            public void actionPerformed(ActionEvent e) {
+            long timenow = System.currentTimeMillis();
             Enemy stone = new Enemy(Window.this);
             Window.this.enemies.add(stone);
+            double now;
+            int currentIndex = Window.this.enemies.size();
+            if(currentIndex < 5){
+               now =0;
+            }else{ now = Window.this.enemies.get(currentIndex).y;}
+            
+            
             repaint();
-            System.err.println("Generating.");
+            
+            //System.out.println("runTime = " + (timenow - lastTime) + " ms");
+            System.out.println("size :  " + now);
+            lastTime = timenow;
+            //System.err.println("Generating.");
            } 
         });
         
         genTimer.start();
         
-         paintTimer = new Timer(16, new ActionListener() {
+         paintTimer = new Timer(60, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(Enemy enemy : Window.this.enemies) {
                     enemy.moveEnemy();
                     //System.err.println("Moving.");
                 }
+                int currentIndex = Window.this.enemies.size();
+                System.out.println("size :  " + currentIndex);
                 repaint();
-                System.err.println("time delay is 16.");
+                //System.err.println("time delay is 16.");
             }
         });
 
@@ -123,7 +139,7 @@ public class Window extends JFrame implements KeyListener {
 
     // 所有會出現在螢幕上的物件都要draw坐在這邊，每個物件 ***一定要有實作draw()***
     public void paint(Graphics g) {
-        System.err.println("Painting.");
+        //System.err.println("Painting.");
         super.paint(g); 
         Graphics2D g2d = (Graphics2D) g;
         for(Blood blood : bloods){
