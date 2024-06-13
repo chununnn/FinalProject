@@ -7,7 +7,7 @@ import java.util.Random;
 public class Enemy extends JPanel{
     private static final int enemySize = 30;
     Random random = new Random();
-    int x = random.nextInt(1600 - enemySize);
+    int x = random.nextInt(720 - enemySize);
     int y = enemySize;
     int incy = 1; // 這是石頭要移動的單位
     private Window window;

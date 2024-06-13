@@ -10,6 +10,7 @@
 
 import javax.swing.*;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.*;
 
 public class Window extends JFrame implements KeyListener {
@@ -18,6 +19,9 @@ public class Window extends JFrame implements KeyListener {
     private Score score;
     private Button reset;
     private Button close;
+    Plane plane = new Plane(this);
+    Enemy enemy = new Enemy(this);
+
     Window(String title) {
         this.setTitle(title); // 視窗標題
         this.setSize(1080, 720); // 視窗大小
@@ -84,12 +88,16 @@ public class Window extends JFrame implements KeyListener {
     // 所有會出現在螢幕上的物件都要draw坐在這邊，每個物件 ***一定要有實作draw()***
     public void paint(Graphics g) {
         super.paint(g); 
+        Graphics2D g2d = (Graphics2D) g;
         for(Blood blood : bloods){
             blood.draw(g);
         }
         score.draw(g);
         reset.draw(g);
         close.draw(g);
+
+        plane.paint(g2d);
+        enemy.paint(g2d);
     }
 
     public void bloodMinus(){
