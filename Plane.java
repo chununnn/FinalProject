@@ -19,6 +19,7 @@ public class Plane extends JPanel {
     }
 
     // 鍵盤輸入要有錯，我要改
+    // 你應該不用實作鍵盤，可以去看看Window裡面，有實作了，用Window裡的就好
 
     public void keyPressedLeft(KeyEvent e) {
         switch (e.getKeyCode()) {
