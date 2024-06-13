@@ -9,14 +9,14 @@ public class Enemy extends JPanel{
     Random random = new Random();
     int x = random.nextInt(720 - enemySize);
     int y = enemySize;
-    int incy = 1; // 這是石頭要移動的單位
+    int incy = 3; // 這是石頭要移動的單位
     private Window window;
 
     public Enemy(Window w) {
         this.window = w;
     }
 
-    void moveEnemy() {
+    public void moveEnemy() {
         if (y + incy > window.getHeight() - enemySize) {
             x = random.nextInt(window.getWidth() - enemySize);
             y = enemySize;
