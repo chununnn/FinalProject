@@ -11,7 +11,10 @@
 import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Window extends JFrame implements KeyListener {
     private int keyReturn;
@@ -19,9 +22,13 @@ public class Window extends JFrame implements KeyListener {
     private Score score;
     private Button reset;
     private Button close;
-    Plane plane = new Plane(this);
-    Enemy enemy = new Enemy(this);
-    Bullet bullet = new Bullet();
+    
+    private Plane plane;
+    private List<Enemy> enemies;
+    private List<Bullet> bullets;
+
+    private Timer genTimer;
+    private Timer paintTimer;
 
     Window(String title) {
         this.setTitle(title); // 視窗標題
@@ -54,6 +61,32 @@ public class Window extends JFrame implements KeyListener {
             ///////////////////////
         });
         this.setVisible(true); // 顯示視窗
+        //test
+        this.enemies = new ArrayList<>();
+        genTimer = new Timer(500, new ActionListener() {
+            @Override
+           public void actionPerformed(ActionEvent e) {
+            Enemy stone = new Enemy(Window.this);
+            Window.this.enemies.add(stone);
+            repaint();
+            System.err.println("Generating.");
+           } 
+        });
+        
+        genTimer.start();
+        
+         paintTimer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(Enemy enemy : Window.this.enemies) {
+                    enemy.moveEnemy();
+                    //System.err.println("Moving.");
+                }
+                repaint();
+            }
+        });
+
+        paintTimer.start(); 
     }
 
     // 處理鍵盤輸入
@@ -62,10 +95,8 @@ public class Window extends JFrame implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) { // 左
             plane.keyPressedLeft(e);
-            keyReturn = 1;            
+            keyReturn = 1;
             System.out.println(1);
-            bloodMinus();
-            repaint();
             
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) { // 右
             plane.keyPressedRight(e);
@@ -79,7 +110,7 @@ public class Window extends JFrame implements KeyListener {
     }
 
     public void keyReleased(KeyEvent e) {
-        plane.keyReleased(e);
+        //plane.keyReleased(e);
         keyReturn = 0;
         System.out.println(0);
         
@@ -91,6 +122,7 @@ public class Window extends JFrame implements KeyListener {
 
     // 所有會出現在螢幕上的物件都要draw坐在這邊，每個物件 ***一定要有實作draw()***
     public void paint(Graphics g) {
+        System.err.println("Painting.");
         super.paint(g); 
         Graphics2D g2d = (Graphics2D) g;
         for(Blood blood : bloods){
@@ -100,9 +132,11 @@ public class Window extends JFrame implements KeyListener {
         reset.draw(g);
         close.draw(g);
 
-        plane.paint(g2d);
-        enemy.paint(g2d);
-        bullet.paint(g2d);
+        //plane.paint(g2d);
+        for(Enemy enemy : enemies) {
+            enemy.paint(g2d);
+        }
+        //bullet.paint(g2d);
     }
 
     public void bloodMinus(){
@@ -119,6 +153,39 @@ public class Window extends JFrame implements KeyListener {
         bullet.moveBullet();
         enemy.moveEnemy();
     }*/
+/* 
+    public void determine() {
+        for(Bullet bullet : bullets) {
+            for(Enemy enemy : enemies) {
+                if(collision(bullet.getBound(), enemy.getBound())) {
+                    //bullet disappeared
+                    enemy.EBloodMinusOne();
+                    score.scorePlus();;
+                    if(enemy.getBlood() == 0) {
+                        //enemy disappeard
+                    }
+                } else if(collision(bullet.getBound(), window.getBoundUp())) {
+                    //bullet disappeared
+                }
+            }
+        }
+
+        for(Enemy enemy : enemies) {
+            if(collision(plane.getBound(), enemy.getBound())) {
+                bloodMinus();
+                //enemy disappeared
+            } else if(collision(enemy.getBound(), window.getBoundDown())) {
+                //enemy disappeared
+                score.scoreMinus();
+            }
+        }
+    }
+    */
+    private boolean collision(Rectangle R1, Rectangle R2) {
+        return R1.intersects(R2);
+    }
+
+    
     
     public static void main(String[] args) throws InterruptedException {
         /*Window window = */new Window("test");
@@ -129,8 +196,3 @@ public class Window extends JFrame implements KeyListener {
     }
     
 }
-
-
-
-
-            
