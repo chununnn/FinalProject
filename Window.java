@@ -27,6 +27,9 @@ public class Window extends JFrame implements KeyListener {
     private Plane plane;
     private List<Enemy> enemies;
     private List<Bullet> bullets;
+    private Plane planeTemp = new Plane(this);// 我等等會刪我在測試
+    private Enemy enemyTemp = new Enemy(this);//我等等會刪
+    private Bullet bulletTemp = new Bullet();//我等等會刪
     long lastTime = 0;
     private Timer genTimer;
     private Timer paintTimer;
@@ -65,7 +68,8 @@ public class Window extends JFrame implements KeyListener {
         //test
         this.enemies = new ArrayList<>();
         
-        genTimer = new Timer(6000, new ActionListener() {
+        /////////等等記得改回來（我在測試）
+        /* genTimer = new Timer(6000, new ActionListener() {
             @Override
            public void actionPerformed(ActionEvent e) {
             long timenow = System.currentTimeMillis();
@@ -103,22 +107,27 @@ public class Window extends JFrame implements KeyListener {
             }
         });
 
-        paintTimer.start(); 
+        paintTimer.start(); */
     }
 
     // 處理鍵盤輸入
     public void keyTyped(KeyEvent e) {}
-    
+    // 裡面的有Temp的都是在測試
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) { // 左
-            plane.keyPressedLeft(e);
-            keyReturn = 1;
+            keyReturn = -10;
             System.out.println(1);
-            
+            planeTemp.movePlane();
+            enemyTemp.moveEnemy();
+            bulletTemp.moveBullet();
+            repaint();
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) { // 右
-            plane.keyPressedRight(e);
-            keyReturn = 2;
+            keyReturn = 10;
             System.out.println(2);
+            planeTemp.movePlane();
+            enemyTemp.moveEnemy();
+            bulletTemp.moveBullet();
+            repaint();
         } else {
             keyReturn = 0;
             System.out.println(0);
@@ -127,7 +136,6 @@ public class Window extends JFrame implements KeyListener {
     }
 
     public void keyReleased(KeyEvent e) {
-        //plane.keyReleased(e);
         keyReturn = 0;
         System.out.println(0);
         
@@ -153,7 +161,9 @@ public class Window extends JFrame implements KeyListener {
         for(Enemy enemy : enemies) {
             enemy.paint(g2d);
         }
-        //bullet.paint(g2d);
+        planeTemp.paint(g2d);
+        enemyTemp.paint(g2d);
+        bulletTemp.paint(g2d);
     }
 
     public void bloodMinus(){

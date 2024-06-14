@@ -1,22 +1,26 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
+import javax.swing.JPanel;
 
-import javax.swing.JComponent;
-
-public class Bullet extends JComponent{
-    private final int bulletSize = 10;
+public class Bullet extends JPanel{
+    private final int bulletSize = 5;
     private int x;
     private int y;
-    private int speed = 10;
+    private final int speed = 10;
     private Plane plane = new Plane(null);
 
     public Bullet() {
-        this.x = plane.x + 25;
+        this.x = plane.x + 28;
         this.y = plane.y - 15;
     }
 
     public void moveBullet() {
-        y -= speed;
+        if (y - speed <= 0 + bulletSize + 20) {
+            x = plane.x + 28;
+            y = plane.y - 15;
+        } else {
+            y -= speed;
+        }
     }
 
     public void paint(Graphics2D g) {

@@ -1,12 +1,6 @@
 import javax.swing.JPanel;
-import javax.swing.Timer;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Enemy extends JPanel{
@@ -14,7 +8,7 @@ public class Enemy extends JPanel{
     Random random = new Random();
     int x = random.nextInt(720 - enemySize);
     int y = enemySize;
-    int incy = 3; // 這是石頭要移動的單位
+    private final int speed = 10; // 這是石頭要移動的單位
     private Window window;
 
     public Enemy(Window w) {
@@ -22,13 +16,12 @@ public class Enemy extends JPanel{
     }
 
     public void moveEnemy() {
-        if (y + incy > window.getHeight() - enemySize) {
+        if (y + speed > window.getHeight() - enemySize) {
             x = random.nextInt(window.getWidth() - enemySize);
             y = enemySize;
         } else {
-            y += incy;
+            y += speed;
         }
-
     }
 
     public void paint(Graphics2D g) {
