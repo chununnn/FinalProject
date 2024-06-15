@@ -9,6 +9,8 @@
 
 
 import javax.swing.*;
+
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -20,16 +22,16 @@ import java.util.List;
 public class Window extends JFrame implements KeyListener {
     private int keyReturn;
     private Blood[] bloods;
-    private Score score;
+    public Score score;
     private Button reset;
     private Button close;
     
-    private Plane plane;
+    //private Plane plane;
     private List<Enemy> enemies;
     private List<Bullet> bullets;
-    private Plane planeTemp = new Plane(this);// 我等等會刪我在測試
-    private Enemy enemyTemp = new Enemy(this);//我等等會刪
-    private Bullet bulletTemp = new Bullet();//我等等會刪
+    Plane planeTemp = new Plane(this);// 我等等會刪我在測試
+    Enemy enemyTemp = new Enemy(this);//我等等會刪
+    Bullet bulletTemp = new Bullet();//我等等會刪
     long lastTime = 0;
     private Timer genTimer;
     private Timer paintTimer;
@@ -117,16 +119,26 @@ public class Window extends JFrame implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) { // 左
             keyReturn = -10;
             System.out.println(1);
-            planeTemp.movePlane();
-            enemyTemp.moveEnemy();
-            bulletTemp.moveBullet();
+            if (enemyTemp.getBounds().intersects(bulletTemp.getBounds())) {
+                enemyTemp.respawn();
+                bulletTemp.respawn();
+            } else {
+                planeTemp.movePlane();
+                enemyTemp.moveEnemy();
+                bulletTemp.moveBullet();
+            }
             repaint();
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) { // 右
             keyReturn = 10;
             System.out.println(2);
-            planeTemp.movePlane();
-            enemyTemp.moveEnemy();
-            bulletTemp.moveBullet();
+            if (enemyTemp.getBounds().intersects(bulletTemp.getBounds())) {
+                enemyTemp.respawn();
+                bulletTemp.respawn();
+            } else {
+                planeTemp.movePlane();
+                enemyTemp.moveEnemy();
+                bulletTemp.moveBullet();
+            }
             repaint();
         } else {
             keyReturn = 0;
@@ -176,10 +188,6 @@ public class Window extends JFrame implements KeyListener {
             }
     }
 
-    /*public void move() {
-        bullet.moveBullet();
-        enemy.moveEnemy();
-    }*/
 /* 
     public void determine() {
         for(Bullet bullet : bullets) {
@@ -211,8 +219,6 @@ public class Window extends JFrame implements KeyListener {
     private boolean collision(Rectangle R1, Rectangle R2) {
         return R1.intersects(R2);
     }
-
-    
     
     public static void main(String[] args) throws InterruptedException {
         /*Window window = */new Window("test");
