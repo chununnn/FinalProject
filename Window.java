@@ -33,10 +33,13 @@ public class Window extends JFrame implements KeyListener {
     Plane plane = new Plane(this);
     private List<Enemy> enemies;
     private List<Bullet> bullets;
-    long lastTime = 0;
-    private Timer genTimer;
-    private Timer bulletTimer;
-    private Timer paintTimer;
+    
+    private long enemyGenGap;
+    private long bulletGenGap;
+    private long painterGap;
+    //private Timer genTimer;
+    //private Timer bulletTimer;
+    //private Timer paintTimer;
 
     Window(String title) {
         this.setTitle(title); // 視窗標題
@@ -74,7 +77,35 @@ public class Window extends JFrame implements KeyListener {
         this.enemies = new ArrayList<>();
         this.bullets = new ArrayList<>();
         
-        genTimer = new Timer(6000, new ActionListener() {
+        enemyGenGap = 0;
+
+        try {
+            while(true) {
+                if(enemyGenGap % 10 == 0) {
+                    Enemy stone = new Enemy(this);
+                    enemies.add(stone);
+                }
+
+                Bullet newBullet = new Bullet(plane);
+                bullets.add(newBullet);
+
+                for(Enemy enemy : Window.this.enemies) {
+                        enemy.moveEnemy();
+                    }
+                for(Bullet bullet : bullets) {
+                    bullet.moveBullet();
+                }
+                repaint();
+                determine(bullets, enemies, plane);
+
+                enemyGenGap += 1;
+                Thread.sleep(100);
+            }
+        } catch(InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        
+        /* genTimer = new Timer(6000, new ActionListener() {
             @Override
            public void actionPerformed(ActionEvent e) {
             Enemy stone = new Enemy(Window.this);
@@ -106,7 +137,7 @@ public class Window extends JFrame implements KeyListener {
 
         genTimer.start();
         bulletTimer.start();
-        paintTimer.start();
+        paintTimer.start(); */
     }
 
     // 處理鍵盤輸入
@@ -194,13 +225,12 @@ public class Window extends JFrame implements KeyListener {
         Iterator<Enemy> enemyIte = enemies.iterator();
         while (enemyIte.hasNext()) {
             Enemy enemy = enemyIte.next();
-            System.err.println(enemy.getY());
             if (collision(plane.getBounds(), enemy.getBounds())) {
                 bloodMinus();
                 enemyIte.remove();
             } else if (enemy.getY() == height - enemy.enemySize) {
                 enemyIte.remove();
-                score.scoreMinus();
+                score.scoreMinus5();
             }
         }
     }

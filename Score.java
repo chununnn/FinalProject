@@ -20,8 +20,9 @@ public class Score extends JPanel{
     public void scorePlus(){
         score += 1;
     }
-    public void scoreMinus(){
-        score -=1;
+    public void scoreMinus5(){
+        if(!(score - 5 < 0))
+        score -=5;
     }
     public int returnScore(){
         return score;
