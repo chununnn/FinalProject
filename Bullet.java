@@ -6,13 +6,13 @@ import javax.swing.JPanel;
 public class Bullet extends JPanel{
     public final int bulletSize = 5;
     private int x;
-    public int y;
+    private int y;
     public final int speed = 20;
     private Plane plane;
     public boolean visiable = true;
 
     public Bullet(Plane p) {  
-        plane = p; 
+        plane = p;
         this.x = plane.getX() + 28;
         this.y = plane.getY() - 15;
     }
@@ -31,6 +31,7 @@ public class Bullet extends JPanel{
         if (y - speed <= bulletSize + 20) {
             respawn();
         } else {
+            //System.err.println("Moving bullet");
             y -= speed;
         }
     }
@@ -38,5 +39,10 @@ public class Bullet extends JPanel{
     public void paint(Graphics2D g) {
         g.setColor(Color.BLUE);
         g.fillRect(x, y, bulletSize, bulletSize + 5);
+    }
+
+    @Override
+    public int getY() {
+        return y;
     }
 }
