@@ -38,9 +38,6 @@ public class Window extends JFrame implements KeyListener {
     private long enemyGenGap;
     private long bulletGenGap;
     private long painterGap;
-    //private Timer genTimer;
-    //private Timer bulletTimer;
-    //private Timer paintTimer;
 
     Window(String title) {
         this.setTitle(title); // 視窗標題
@@ -65,7 +62,6 @@ public class Window extends JFrame implements KeyListener {
             this.reset.setVisible(false);
             this.close.setVisible(false);
             this.died = false;
-            repaint();
         //////////////////////////////////////////////////////////////// 
         });
         close.setActionListener(() -> {
@@ -76,16 +72,13 @@ public class Window extends JFrame implements KeyListener {
         });
         this.setVisible(true); // 顯示視窗
         
-        this.enemies = new ArrayList<>();
-        this.bullets = new ArrayList<>();
-        
         enemyGenGap = 0;
         bulletGenGap = 0;
-        long testVal = 0;
+
         try {
             while(true) {
-                testVal++;
-                //System.err.println("Executing: " + testVal);
+                this.enemies = new ArrayList<>();
+                this.bullets = new ArrayList<>();
                 while(!died) {
                     double startTime = System.nanoTime();
                     if(enemyGenGap % 150 == 0) {
@@ -110,46 +103,12 @@ public class Window extends JFrame implements KeyListener {
                     bulletGenGap += 1;
                     double endTime = System.nanoTime();
                     System.out.println((endTime - startTime)*1000);
-                    Thread.sleep(1);
-                }    
+                    Thread.sleep(120);
+                }
             }
         } catch(InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        
-        /* genTimer = new Timer(6000, new ActionListener() {
-            @Override
-           public void actionPerformed(ActionEvent e) {
-            Enemy stone = new Enemy(Window.this);
-            enemies.add(stone);
-           } 
-        });
-        
-        bulletTimer = new Timer(100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Bullet newBullet = new Bullet(plane);
-                bullets.add(newBullet);
-            }
-        });
-        
-        paintTimer = new Timer(120, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for(Enemy enemy : Window.this.enemies) {
-                    enemy.moveEnemy();
-                }
-                for(Bullet bullet : bullets) {
-                    bullet.moveBullet();
-                }
-                repaint();
-                determine(bullets, enemies, plane);
-            }
-        });
-
-        genTimer.start();
-        bulletTimer.start();
-        paintTimer.start(); */
     }
 
     // 處理鍵盤輸入
@@ -239,8 +198,8 @@ public class Window extends JFrame implements KeyListener {
         while (enemyIte.hasNext()) {
             Enemy enemy = enemyIte.next();
             if (collision(plane.getBounds(), enemy.getBounds())) {
-                bloodMinus();
                 enemyIte.remove();
+                bloodMinus();
             } else if (enemy.getY() == height - enemy.enemySize) {
                 enemyIte.remove();
                 score.scoreMinus5();
