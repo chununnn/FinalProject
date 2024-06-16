@@ -7,9 +7,10 @@ import java.util.Random;
 public class Enemy extends JPanel{
     public final int enemySize = 30;
     Random random = new Random();
-    int x = random.nextInt(720 - enemySize);
+    //int x = random.nextInt(720 - enemySize);
+    int x = 528;
     int y = enemySize;
-    public int enemyblood = 3;
+    public int enemyblood = 5;
     private final int speed = 10; // 這是石頭要移動的單位
     private Window window;
     public boolean visiable = true;
@@ -18,7 +19,9 @@ public class Enemy extends JPanel{
         this.window = w;
     }
 
-
+    public int EBloodMinusOne() {
+        return enemyblood -= 1;
+    }
 
     public Rectangle getBounds() {
         return new Rectangle(x, y, enemySize, enemySize);
@@ -26,7 +29,7 @@ public class Enemy extends JPanel{
 
     // 檢測有無跟飛機碰撞
     private boolean collisionPlane() {
-        return window.planeTemp.getBounds().intersects(getBounds());
+        return window.plane.getBounds().intersects(getBounds());
     }
 
     // 石頭重生
