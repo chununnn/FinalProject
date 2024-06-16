@@ -66,6 +66,7 @@ public class Window extends JFrame implements KeyListener {
         close.setActionListener(() -> {
             //////////////////////// 這是按下close之後之行的
             dispose();
+            System.exit(0);
             ///////////////////////
         });
         this.setVisible(true); // 顯示視窗
