@@ -4,15 +4,15 @@ import java.awt.Rectangle;
 import javax.swing.JPanel;
 
 public class Bullet extends JPanel{
-    private final int bulletSize = 5;
+    public final int bulletSize = 5;
     private int x;
-    private int y;
-    private final int speed = 10;
+    public int y;
+    public final int speed = 20;
     private Plane plane;
     public boolean visiable = true;
 
-    public Bullet() {  
-        plane = new Plane(null); 
+    public Bullet(Plane p) {  
+        plane = p; 
         this.x = plane.getX() + 28;
         this.y = plane.getY() - 15;
     }
