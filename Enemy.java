@@ -10,7 +10,7 @@ public class Enemy extends JPanel{
     int x = random.nextInt(720 - enemySize);
     int y = enemySize;
     public int enemyblood = 5;
-    private final int speed = 10; // 這是石頭要移動的單位
+    private final int speed = 3; // 這是石頭要移動的單位
     private Window window;
     public boolean visiable = true;
 

@@ -78,16 +78,19 @@ public class Window extends JFrame implements KeyListener {
         this.bullets = new ArrayList<>();
         
         enemyGenGap = 0;
+        bulletGenGap = 0;
 
         try {
             while(true) {
-                if(enemyGenGap % 10 == 0) {
+                double startTime = System.nanoTime();
+                if(enemyGenGap % 150 == 0) {
                     Enemy stone = new Enemy(this);
                     enemies.add(stone);
                 }
-
-                Bullet newBullet = new Bullet(plane);
-                bullets.add(newBullet);
+                if(bulletGenGap % 20 == 0) {
+                    Bullet newBullet = new Bullet(plane);
+                    bullets.add(newBullet);
+                }
 
                 for(Enemy enemy : Window.this.enemies) {
                         enemy.moveEnemy();
@@ -99,7 +102,10 @@ public class Window extends JFrame implements KeyListener {
                 determine(bullets, enemies, plane);
 
                 enemyGenGap += 1;
-                Thread.sleep(100);
+                bulletGenGap += 1;
+                double endTime = System.nanoTime();
+                System.out.println((endTime - startTime)*1000);
+                Thread.sleep(60);
             }
         } catch(InterruptedException e) {
             Thread.currentThread().interrupt();

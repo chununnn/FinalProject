@@ -7,7 +7,7 @@ public class Bullet extends JPanel{
     public final int bulletSize = 5;
     private int x;
     private int y;
-    public final int speed = 20;
+    public final int speed = 7;
     private Plane plane;
     public boolean visiable = true;
 
