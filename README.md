@@ -10,7 +10,7 @@ to: 玩家飛機
 
 to: 子彈
 類別名稱請取Bullet
-請實作getBound(), 回傳Rectangle類別的子彈
+請實作getBound(), 回傳Rectangle類別的子彈 // 檢測石頭與子彈碰撞需要在Window裡執行
 
 to: 落石
 類別名稱請取Enemy
