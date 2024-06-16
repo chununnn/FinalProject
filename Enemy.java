@@ -7,8 +7,7 @@ import java.util.Random;
 public class Enemy extends JPanel{
     public final int enemySize = 30;
     Random random = new Random();
-    //int x = random.nextInt(720 - enemySize);
-    int x = 528;
+    int x = random.nextInt(720 - enemySize);
     int y = enemySize;
     public int enemyblood = 5;
     private final int speed = 10; // 這是石頭要移動的單位
@@ -55,5 +54,9 @@ public class Enemy extends JPanel{
         g.setColor(Color.BLACK);
         g.fillOval(x, y, enemySize, enemySize);
     }
-}
 
+    @Override
+    public int getY() {
+        return this.y;
+    }
+}

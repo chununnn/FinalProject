@@ -121,7 +121,6 @@ public class Window extends JFrame implements KeyListener {
             plane.movePlane();
         } else {
             keyReturn = 0;
-            System.out.println(0);
         }
         
     }
@@ -195,10 +194,11 @@ public class Window extends JFrame implements KeyListener {
         Iterator<Enemy> enemyIte = enemies.iterator();
         while (enemyIte.hasNext()) {
             Enemy enemy = enemyIte.next();
+            System.err.println(enemy.getY());
             if (collision(plane.getBounds(), enemy.getBounds())) {
                 bloodMinus();
                 enemyIte.remove();
-            } else if (enemy.getY() == (0 - height)) {
+            } else if (enemy.getY() == height - enemy.enemySize) {
                 enemyIte.remove();
                 score.scoreMinus();
             }
