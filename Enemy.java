@@ -25,9 +25,9 @@ public class Enemy extends JPanel{
     }
 
     // 檢測有無跟飛機碰撞
-    private boolean collisionPlane() {
+    /* private boolean collisionPlane() {
         return window.planeTemp.getBounds().intersects(getBounds());
-    }
+    } */
 
     // 石頭重生
     public void respawn() {
@@ -42,10 +42,10 @@ public class Enemy extends JPanel{
             y += speed;
         }
 
-        if (collisionPlane()) {
+        /* if (collisionPlane()) {
             window.bloodMinus();
             respawn();
-        }
+        } */
     }
 
     public void paint(Graphics2D g) {

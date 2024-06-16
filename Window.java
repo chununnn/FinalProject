@@ -16,10 +16,14 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
 public class Window extends JFrame implements KeyListener {
+    private static final int width = 1080;
+    private static final int height = 720;
+
     private int keyReturn;
     private Blood[] bloods;
     public Score score;
@@ -29,16 +33,17 @@ public class Window extends JFrame implements KeyListener {
     //private Plane plane;
     private List<Enemy> enemies;
     private List<Bullet> bullets;
-    Plane planeTemp = new Plane(this);// 我等等會刪我在測試
-    Enemy enemyTemp = new Enemy(this);//我等等會刪
-    Bullet bulletTemp = new Bullet();//我等等會刪
+    private Plane planeTemp = new Plane(this);// 我等等會刪我在測試
+    //Enemy enemyTemp = new Enemy(this);//我等等會刪
+    //Bullet bulletTemp = new Bullet();//我等等會刪
     long lastTime = 0;
     private Timer genTimer;
+    private Timer bulletTimer;
     private Timer paintTimer;
 
     Window(String title) {
         this.setTitle(title); // 視窗標題
-        this.setSize(1080, 720); // 視窗大小
+        this.setSize(width, height); // 視窗大小
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         this.setLocationRelativeTo(null); // 視窗居中
         this.addKeyListener(this);
@@ -69,47 +74,41 @@ public class Window extends JFrame implements KeyListener {
         this.setVisible(true); // 顯示視窗
         //test
         this.enemies = new ArrayList<>();
-        
+        this.bullets = new ArrayList<>();
+
         /////////等等記得改回來（我在測試）
-        /* genTimer = new Timer(6000, new ActionListener() {
+        genTimer = new Timer(6000, new ActionListener() {
             @Override
            public void actionPerformed(ActionEvent e) {
-            long timenow = System.currentTimeMillis();
             Enemy stone = new Enemy(Window.this);
             Window.this.enemies.add(stone);
-            double now;
-            int currentIndex = Window.this.enemies.size();
-            if(currentIndex < 5){
-               now =0;
-            }else{ now = Window.this.enemies.get(currentIndex).y;}
-            
-            
-            repaint();
-            
-            //System.out.println("runTime = " + (timenow - lastTime) + " ms");
-            System.out.println("size :  " + now);
-            lastTime = timenow;
-            //System.err.println("Generating.");
            } 
         });
         
-        genTimer.start();
-        
-         paintTimer = new Timer(60, new ActionListener() {
+        bulletTimer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Bullet newBullet = new Bullet();
+                bullets.add(newBullet);
+            }
+        });
+        
+        paintTimer = new Timer(120, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.err.println("Enemy size: " + enemies.size());
+                System.err.println("Bullet size: " + bullets.size());
                 for(Enemy enemy : Window.this.enemies) {
                     enemy.moveEnemy();
-                    //System.err.println("Moving.");
                 }
-                int currentIndex = Window.this.enemies.size();
-                System.out.println("size :  " + currentIndex);
                 repaint();
-                //System.err.println("time delay is 16.");
+                determine(bullets, enemies, planeTemp);
             }
         });
 
-        paintTimer.start(); */
+        genTimer.start();
+        bulletTimer.start();
+        paintTimer.start();
     }
 
     // 處理鍵盤輸入
@@ -119,7 +118,8 @@ public class Window extends JFrame implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) { // 左
             keyReturn = -10;
             System.out.println(1);
-            if (enemyTemp.getBounds().intersects(bulletTemp.getBounds())) {
+            planeTemp.movePlane();
+            /* if (enemyTemp.getBounds().intersects(bulletTemp.getBounds())) {
                 enemyTemp.respawn();
                 bulletTemp.respawn();
             } else {
@@ -127,11 +127,12 @@ public class Window extends JFrame implements KeyListener {
                 enemyTemp.moveEnemy();
                 bulletTemp.moveBullet();
             }
-            repaint();
+            repaint(); */
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) { // 右
             keyReturn = 10;
             System.out.println(2);
-            if (enemyTemp.getBounds().intersects(bulletTemp.getBounds())) {
+            planeTemp.movePlane();
+            /* if (enemyTemp.getBounds().intersects(bulletTemp.getBounds())) {
                 enemyTemp.respawn();
                 bulletTemp.respawn();
             } else {
@@ -139,7 +140,7 @@ public class Window extends JFrame implements KeyListener {
                 enemyTemp.moveEnemy();
                 bulletTemp.moveBullet();
             }
-            repaint();
+            repaint(); */
         } else {
             keyReturn = 0;
             System.out.println(0);
@@ -174,8 +175,8 @@ public class Window extends JFrame implements KeyListener {
             enemy.paint(g2d);
         }
         planeTemp.paint(g2d);
-        enemyTemp.paint(g2d);
-        bulletTemp.paint(g2d);
+        //enemyTemp.paint(g2d);
+        //bulletTemp.paint(g2d);
     }
 
     public void bloodMinus(){
@@ -188,34 +189,37 @@ public class Window extends JFrame implements KeyListener {
             }
     }
 
-/* 
-    public void determine() {
-        for(Bullet bullet : bullets) {
-            for(Enemy enemy : enemies) {
-                if(collision(bullet.getBound(), enemy.getBound())) {
-                    //bullet disappeared
-                    enemy.EBloodMinusOne();
+ 
+    public void determine(List<Bullet> bullets, List<Enemy> enemies, Plane plane) {
+        if(bullets == null || enemies == null) return;
+        Iterator<Bullet> bulletIte = bullets.iterator();
+        Iterator<Enemy> enemyIte = enemies.iterator();
+
+        while(bulletIte.hasNext()) {
+            Bullet bullet = bulletIte.next();
+            while(enemyIte.hasNext()) {
+                Enemy enemy = enemyIte.next();
+                if(collision(bullet.getBounds(), enemy.getBounds())) {
+                    enemy.enemyblood--;
                     score.scorePlus();;
-                    if(enemy.getBlood() == 0) {
-                        //enemy disappeard
+                    if(enemy.enemyblood == 0) {
+                        enemyIte.remove();
                     }
-                } else if(collision(bullet.getBound(), window.getBoundUp())) {
-                    //bullet disappeared
+                } else if(bullet.getY() == 0) {
+                    bulletIte.remove();
+                }
+
+                if(collision(plane.getBounds(), enemy.getBounds())) {
+                    bloodMinus();
+                    enemyIte.remove();
+                } else if(enemy.getY() == (0 - height)) {
+                    enemyIte.remove();
+                    score.scoreMinus();
                 }
             }
         }
-
-        for(Enemy enemy : enemies) {
-            if(collision(plane.getBound(), enemy.getBound())) {
-                bloodMinus();
-                //enemy disappeared
-            } else if(collision(enemy.getBound(), window.getBoundDown())) {
-                //enemy disappeared
-                score.scoreMinus();
-            }
-        }
     }
-    */
+
     private boolean collision(Rectangle R1, Rectangle R2) {
         return R1.intersects(R2);
     }
