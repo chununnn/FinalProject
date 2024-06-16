@@ -29,6 +29,7 @@ public class Window extends JFrame implements KeyListener {
     public Score score;
     private Button reset;
     private Button close;
+    private boolean died = false;
     
     Plane plane = new Plane(this);
     private List<Enemy> enemies;
@@ -63,6 +64,7 @@ public class Window extends JFrame implements KeyListener {
             this.score.resetScore(); 
             this.reset.setVisible(false);
             this.close.setVisible(false);
+            this.died = false;
             repaint();
         //////////////////////////////////////////////////////////////// 
         });
@@ -73,39 +75,43 @@ public class Window extends JFrame implements KeyListener {
             ///////////////////////
         });
         this.setVisible(true); // 顯示視窗
-        //test
+        
         this.enemies = new ArrayList<>();
         this.bullets = new ArrayList<>();
         
         enemyGenGap = 0;
         bulletGenGap = 0;
-
+        long testVal = 0;
         try {
             while(true) {
-                double startTime = System.nanoTime();
-                if(enemyGenGap % 150 == 0) {
-                    Enemy stone = new Enemy(this);
-                    enemies.add(stone);
-                }
-                if(bulletGenGap % 20 == 0) {
-                    Bullet newBullet = new Bullet(plane);
-                    bullets.add(newBullet);
-                }
-
-                for(Enemy enemy : Window.this.enemies) {
-                        enemy.moveEnemy();
+                testVal++;
+                //System.err.println("Executing: " + testVal);
+                while(!died) {
+                    double startTime = System.nanoTime();
+                    if(enemyGenGap % 150 == 0) {
+                        Enemy stone = new Enemy(this);
+                        enemies.add(stone);
                     }
-                for(Bullet bullet : bullets) {
-                    bullet.moveBullet();
-                }
-                repaint();
-                determine(bullets, enemies, plane);
-
-                enemyGenGap += 1;
-                bulletGenGap += 1;
-                double endTime = System.nanoTime();
-                System.out.println((endTime - startTime)*1000);
-                Thread.sleep(60);
+                    if(bulletGenGap % 20 == 0) {
+                        Bullet newBullet = new Bullet(plane);
+                        bullets.add(newBullet);
+                    }
+    
+                    for(Enemy enemy : Window.this.enemies) {
+                            enemy.moveEnemy();
+                    }
+                    for(Bullet bullet : bullets) {
+                        bullet.moveBullet();
+                    }
+                    repaint();
+                    determine(bullets, enemies, plane);
+    
+                    enemyGenGap += 1;
+                    bulletGenGap += 1;
+                    double endTime = System.nanoTime();
+                    System.out.println((endTime - startTime)*1000);
+                    Thread.sleep(1);
+                }    
             }
         } catch(InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -197,6 +203,7 @@ public class Window extends JFrame implements KeyListener {
             if(index == 0){     //血量歸零之後出現按鈕
                 this.reset.setVisible(true);
                 this.close.setVisible(true);
+                this.died = true;
             }
     }
 
