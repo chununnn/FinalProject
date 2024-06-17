@@ -95,8 +95,8 @@ public class Window extends JFrame implements KeyListener {
                 Thread.sleep(17);
                 }
                 while(start && !died) {
-                    if(enemyGenGap % (150 / enemyGenSpeed) == 0) {
-                        Enemy stone = new Enemy(this, enemyIndex, (enemyGenGap / 6000) + 2);
+                    if(enemyGenGap % ((150 / enemyGenSpeed) < 50 ? 50 : (150 / enemyGenSpeed)) == 0) {
+                        Enemy stone = new Enemy(this, enemyIndex, (enemyGenGap / 3000) + 2);
                         enemies[enemyIndex % enemiesMax] = stone;
                         if(++enemyIndex % 10 == 0) {
                             enemyGenSpeed++;
@@ -172,7 +172,7 @@ public class Window extends JFrame implements KeyListener {
 
         Graphics2D g2d = (Graphics2D) bufferedGraphics;
         g2d.clearRect(0, 0, getWidth(), getHeight());
-
+        background.paint(g2d);
         plane.paint(g2d);
         
         for(Bullet bullet : bullets) {
@@ -196,7 +196,7 @@ public class Window extends JFrame implements KeyListener {
             blood.draw(bufferedGraphics);
         }
         
-        background.paintComponent(g2d);
+        
 
         
 

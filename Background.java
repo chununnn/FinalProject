@@ -21,11 +21,11 @@ public class Background extends JPanel {
         }
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        //super.paintComponent(g);
+    
+    public void paint(Graphics g) {
+        
         if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            g.drawImage(backgroundImage, 0, 0, 1080, 720, this);
         }
     }
 }
