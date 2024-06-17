@@ -15,6 +15,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 
 public class Window extends JFrame implements KeyListener {
     private static final int width = 1080;
@@ -22,10 +23,11 @@ public class Window extends JFrame implements KeyListener {
     private static final int enemiesMax = 50;
     private static final int bulletsMax = 25;
 
-    boolean start = false;
+    private boolean start = false;
     private boolean died = false;
-
     private int keyReturn;
+
+    private BufferedImage bufferedImage;
     private Blood[] bloods;
     public Score score;
     private Button reset;
@@ -91,9 +93,7 @@ public class Window extends JFrame implements KeyListener {
                 repaint();
                 Thread.sleep(17);
                 }
-                while(start &&!died) {
-                    double startTime = System.nanoTime();
-                    
+                while(start && !died) {
                     if(enemyGenGap % (150 / enemyGenSpeed) == 0) {
                         Enemy stone = new Enemy(this, enemyIndex, (enemyGenGap / 3000) + 3);
                         enemies[enemyIndex % enemiesMax] = stone;
@@ -123,8 +123,6 @@ public class Window extends JFrame implements KeyListener {
                     enemyGenGap++;
                     bulletGenGap ++;
 
-                    double endTime = System.nanoTime();
-                    System.out.println((endTime - startTime)*1000);
                     Thread.sleep(17);
                 }
             }
@@ -162,29 +160,66 @@ public class Window extends JFrame implements KeyListener {
 
     // 所有會出現在螢幕上的物件都要draw坐在這邊，每個物件 ***一定要有實作draw()***
     public void paint(Graphics g) {
-        super.paint(g); 
-        Graphics2D g2d = (Graphics2D) g;
-        startline.draw(g);
+        //super.paint(g);
+        
+        if(bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight()) {
+            bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        }
+
+        Graphics bufferedGraphics = bufferedImage.getGraphics();
+        bufferedGraphics.clearRect(0, 0, getWidth(), getHeight());
+
+        Graphics2D g2d = (Graphics2D) bufferedGraphics;
+        g2d.clearRect(0, 0, getWidth(), getHeight());
+
+        
+
+        for(Blood blood : bloods){
+            //System.err.println("Painting blood.");
+            blood.draw(bufferedGraphics);
+        }
+        startline.draw(bufferedGraphics);
+        score.draw(bufferedGraphics);
+        reset.draw(bufferedGraphics);
+        close.draw(bufferedGraphics);
+
         for(Enemy enemy : enemies) {
             if(enemy != null) {
                 enemy.paint(g2d);
             }
         }
-
         for(Bullet bullet : bullets) {
             if(bullet != null) {
                 bullet.paint(g2d);
             }
         }
+        plane.paint(g2d);
+        
+        if(bufferedImage == null) System.err.println("No Image");
 
+        g.drawImage(bufferedImage, 0, 0, this);
+
+        bufferedGraphics.dispose();
+        /* Graphics2D g2d = (Graphics2D) g;
         for(Blood blood : bloods){
             blood.draw(g);
         }
-        
+        startline.draw(g);
         score.draw(g);
         reset.draw(g);
         close.draw(g);
-        plane.paint(g2d);
+
+        for(Enemy enemy : enemies) {
+            if(enemy != null) {
+                enemy.paint(g2d);
+            }
+        }
+        for(Bullet bullet : bullets) {
+            if(bullet != null) {
+                bullet.paint(g2d);
+            }
+        }
+        plane.paint(g2d); */
     }
 
     public void bloodMinus(){
