@@ -199,7 +199,7 @@ public class Window extends JFrame implements KeyListener {
                 for(Enemy enemy : enemies) {
                     if(enemy != null) {
                         if(bullet.getBounds().intersects(enemy.getBounds())) {
-                            enemy.enemyblood--;
+                            enemy.EBloodMinusOne();
                             score.scorePlus();
                             bullets[bullet.getIndex() % bulletsMax] = null;
                             if (enemy.enemyblood == 0) {

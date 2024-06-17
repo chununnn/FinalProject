@@ -14,6 +14,19 @@ public class Enemy extends JPanel{
     private Window window;
     private int index;
     public boolean visiable = true;
+    private Color color;
+    private final Color[] redToBeigeGradient = {
+        new Color(255, 0, 0),     // 红色 (Red)
+        new Color(210, 91, 10),   // 中间色1
+        new Color(215, 113, 40),  // 中间色2
+        new Color(220, 135, 70),  // 中间色3
+        new Color(225, 157, 100), // 中间色4
+        new Color(230, 179, 130), // 中间色5
+        new Color(235, 201, 160), // 中间色6
+        new Color(240, 223, 190), // 中间色7
+        new Color(245, 245, 220)  // 米白色 (Beige)
+    };
+    
 
     public Enemy(Window w, int index, long speed) {
         this.enemySize = 10 * random.nextInt(10) + 30;
@@ -21,10 +34,14 @@ public class Enemy extends JPanel{
         this.window = w;
         this.speed = speed;
         this.enemyblood = enemySize / 25 + 3;
+        
+        this.color = redToBeigeGradient[enemyblood];
     }
 
     public int EBloodMinusOne() {
-        return enemyblood -= 1;
+        enemyblood -= 1;
+        this.color = redToBeigeGradient[enemyblood];
+        return enemyblood;
     }
 
     public Rectangle getBounds() {
@@ -46,7 +63,7 @@ public class Enemy extends JPanel{
     }
 
     public void paint(Graphics2D g) {
-        g.setColor(Color.GRAY);
+        g.setColor(this.color);
         g.fillOval(x, y, enemySize, enemySize);
     }
 
