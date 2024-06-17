@@ -173,29 +173,32 @@ public class Window extends JFrame implements KeyListener {
         Graphics2D g2d = (Graphics2D) bufferedGraphics;
         g2d.clearRect(0, 0, getWidth(), getHeight());
 
-        background.paintComponent(bufferedGraphics);
-
-        for(Blood blood : bloods){
-            blood.draw(bufferedGraphics);
-        }
-        startline.draw(bufferedGraphics);
-        score.draw(bufferedGraphics);
-        reset.draw(bufferedGraphics);
-        close.draw(bufferedGraphics);
-
-        for(Enemy enemy : enemies) {
-            if(enemy != null) {
-                enemy.paint(g2d);
-            }
-        }
+        plane.paint(g2d);
+        
         for(Bullet bullet : bullets) {
             if(bullet != null) {
                 bullet.paint(g2d);
             }
         }
-        plane.paint(g2d);
         
-        if(bufferedImage == null) System.err.println("No Image");
+        for(Enemy enemy : enemies) {
+            if(enemy != null) {
+                enemy.paint(g2d);
+            }
+        }
+        
+        startline.draw(bufferedGraphics);
+        score.draw(bufferedGraphics);
+        reset.draw(bufferedGraphics);
+        close.draw(bufferedGraphics);
+        
+        for(Blood blood : bloods){
+            blood.draw(bufferedGraphics);
+        }
+        
+        background.paintComponent(g2d);
+
+        
 
         g.drawImage(bufferedImage, 0, 0, this);
 
