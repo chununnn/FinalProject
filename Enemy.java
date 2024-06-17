@@ -16,15 +16,14 @@ public class Enemy extends JPanel{
     public boolean visiable = true;
     private Color color;
     private final Color[] redToBeigeGradient = {
-        new Color(255, 0, 0),     // 红色 (Red)
-        new Color(210, 91, 10),   // 中间色1
-        new Color(215, 113, 40),  // 中间色2
-        new Color(220, 135, 70),  // 中间色3
-        new Color(225, 157, 100), // 中间色4
-        new Color(230, 179, 130), // 中间色5
-        new Color(235, 201, 160), // 中间色6
-        new Color(240, 223, 190), // 中间色7
-        new Color(245, 245, 220)  // 米白色 (Beige)
+        new Color(255, 0, 0),     
+        new Color(215, 113, 40),  
+        new Color(220, 135, 70),  
+        new Color(225, 157, 100), 
+        new Color(230, 179, 130), 
+        new Color(235, 201, 160), 
+        new Color(240, 223, 190), 
+        new Color(245, 245, 220)  
     };
     
 
