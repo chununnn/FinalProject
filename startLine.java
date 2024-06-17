@@ -44,8 +44,8 @@ public class startLine {
         this.visible = visible;
     }
     public void changeColor(int time){
-        int i = time/2;
-        int j = i%21;
+        //int i = time/2;
+        int j = time%21;
         color = yellowToBrownGradient[j];
     }
     

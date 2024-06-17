@@ -15,7 +15,7 @@ public class Plane extends JPanel {
 
     public Plane(Window w) { // 建構子
         this.window = w;
-        ImageIcon icon = new ImageIcon(getClass().getResource("12+ Fighter Jet Cartoon Png.jpg"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("PlaneImage.jpg"));
         image = icon.getImage();
         x = (1080 - planeWidth) / 2;
         y = 720 - planeHeight - 10;

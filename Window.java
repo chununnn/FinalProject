@@ -25,14 +25,14 @@ public class Window extends JFrame implements KeyListener {
     private static final int height = 720;
     private static final int enemiesMax = 15;
     private static final int bulletsMax = 25;
-
+    boolean start = false;
     private int keyReturn;
     private Blood[] bloods;
     public Score score;
     private Button reset;
     private Button close;
     private boolean died = false;
-    
+    startLine startline = new startLine();
     Plane plane = new Plane(this);
     private Enemy[] enemies;
     private Bullet[] bullets;
@@ -47,6 +47,8 @@ public class Window extends JFrame implements KeyListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         this.setLocationRelativeTo(null); // 視窗居中
         this.addKeyListener(this);
+        Background background = new Background();
+        setContentPane(background);
         bloods =new Blood[]{new Blood(20),
                  new Blood(50),
                  new Blood(80)};
@@ -76,15 +78,21 @@ public class Window extends JFrame implements KeyListener {
         
         enemyGenGap = 0;
         bulletGenGap = 0;
-
+        int times = 0;
         try {
             while(true) {
+                startline.changeColor(times++);
                 this.enemies = new Enemy[enemiesMax];
                 this.bullets = new Bullet[bulletsMax];
                 int bulletIndex = 0;
                 int enemyIndex = 0;
-                while(!died) {
+                if(!died){
+                repaint();
+                Thread.sleep(17);
+                }
+                while(start &&!died) {
                     double startTime = System.nanoTime();
+                    
                     if(enemyGenGap % 150 == 0) {
                         Enemy stone = new Enemy(this, enemyIndex);
                         enemies[enemyIndex % enemiesMax] = stone;
@@ -114,7 +122,7 @@ public class Window extends JFrame implements KeyListener {
 
                     double endTime = System.nanoTime();
                     System.out.println((endTime - startTime)*1000);
-                    Thread.sleep(120);
+                    Thread.sleep(30);
                 }
             }
         } catch(InterruptedException e) {
@@ -134,7 +142,10 @@ public class Window extends JFrame implements KeyListener {
             plane.movePlane();
         } else {
             keyReturn = 0;
+            
         }
+        this.startline.setVisible(false);
+        this.start = true;
         
     }
 
@@ -153,6 +164,7 @@ public class Window extends JFrame implements KeyListener {
         for(Blood blood : bloods){
             blood.draw(g);
         }
+        startline.draw(g);
         score.draw(g);
         reset.draw(g);
         close.draw(g);
@@ -177,6 +189,7 @@ public class Window extends JFrame implements KeyListener {
             if(index == 0){     //血量歸零之後出現按鈕
                 this.reset.setVisible(true);
                 this.close.setVisible(true);
+                
                 this.died = true;
             }
     }

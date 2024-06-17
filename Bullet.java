@@ -39,7 +39,7 @@ public class Bullet extends JPanel{
     }
 
     public void paint(Graphics2D g) {
-        g.setColor(Color.BLUE);
+        g.setColor(new Color(181,230,29));
         g.fillRect(x, y, bulletSize, bulletSize + 5);
     }
 
