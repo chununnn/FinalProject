@@ -49,8 +49,8 @@ public class Window extends JFrame implements KeyListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         this.setLocationRelativeTo(null); // 視窗居中
         this.addKeyListener(this);
-        Background background = new Background();
-        setContentPane(background);
+        //Background background = new Background();
+        //setContentPane(background);
         bloods =new Blood[]{new Blood(20),
                  new Blood(50),
                  new Blood(80)};
@@ -102,7 +102,7 @@ public class Window extends JFrame implements KeyListener {
                             enemyGenSpeed++;
                         }
                     }
-                    if(bulletGenGap % 20 == 0) {
+                    if(bulletGenGap % 15 == 0) {
                         Bullet newBullet = new Bullet(plane, bulletIndex);
                         bullets[bulletIndex % bulletsMax] = newBullet;
                         bulletIndex++;
@@ -137,10 +137,10 @@ public class Window extends JFrame implements KeyListener {
     // 裡面的有Temp的都是在測試
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) { // 左
-            keyReturn = -10;
+            keyReturn = -15;
             plane.movePlane();
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) { // 右
-            keyReturn = 10;
+            keyReturn = 15;
             plane.movePlane();
         } else {
             keyReturn = 0;
