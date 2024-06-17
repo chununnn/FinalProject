@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 public class Window extends JFrame implements KeyListener {
     private static final int width = 1080;
     private static final int height = 720;
@@ -76,17 +75,16 @@ public class Window extends JFrame implements KeyListener {
         });
         this.setVisible(true); // 顯示視窗
         
-        enemyGenGap = 0;
-        bulletGenGap = 0;
         int times = 0;
         try {
             while(true) {
+                enemyGenGap = 0;
+                bulletGenGap = 0;
                 startline.changeColor(times++);
                 this.enemies = new Enemy[enemiesMax];
                 this.bullets = new Bullet[bulletsMax];
                 int bulletIndex = 0;
                 int enemyIndex = 0;
-                long speedLevel = 0;
                 if(!died){
                 repaint();
                 Thread.sleep(17);
