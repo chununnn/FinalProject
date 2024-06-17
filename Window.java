@@ -15,6 +15,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 
 public class Window extends JFrame implements KeyListener {
     private static final int width = 1080;
@@ -22,14 +23,16 @@ public class Window extends JFrame implements KeyListener {
     private static final int enemiesMax = 50;
     private static final int bulletsMax = 25;
 
-    boolean start = false;
+    private boolean start = false;
     private boolean died = false;
-
     private int keyReturn;
+
+    private BufferedImage bufferedImage;
     private Blood[] bloods;
     public Score score;
     private Button reset;
     private Button close;
+    private Background background = new Background();
     
     private StartLine startline = new StartLine();
     private Plane plane = new Plane(this);
@@ -46,8 +49,8 @@ public class Window extends JFrame implements KeyListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         this.setLocationRelativeTo(null); // 視窗居中
         this.addKeyListener(this);
-        Background background = new Background();
-        setContentPane(background);
+        //Background background = new Background();
+        //setContentPane(background);
         bloods =new Blood[]{new Blood(20),
                  new Blood(50),
                  new Blood(80)};
@@ -91,17 +94,15 @@ public class Window extends JFrame implements KeyListener {
                 repaint();
                 Thread.sleep(17);
                 }
-                while(start &&!died) {
-                    double startTime = System.nanoTime();
-                    
-                    if(enemyGenGap % (150 / enemyGenSpeed) == 0) {
-                        Enemy stone = new Enemy(this, enemyIndex, (enemyGenGap / 3000) + 3);
+                while(start && !died) {
+                    if(enemyGenGap % ((150 / enemyGenSpeed) < 50 ? 50 : (150 / enemyGenSpeed)) == 0) {
+                        Enemy stone = new Enemy(this, enemyIndex, (enemyGenGap / 3000) + 2);
                         enemies[enemyIndex % enemiesMax] = stone;
                         if(++enemyIndex % 10 == 0) {
                             enemyGenSpeed++;
                         }
                     }
-                    if(bulletGenGap % 20 == 0) {
+                    if(bulletGenGap % 15 == 0) {
                         Bullet newBullet = new Bullet(plane, bulletIndex);
                         bullets[bulletIndex % bulletsMax] = newBullet;
                         bulletIndex++;
@@ -123,8 +124,6 @@ public class Window extends JFrame implements KeyListener {
                     enemyGenGap++;
                     bulletGenGap ++;
 
-                    double endTime = System.nanoTime();
-                    System.out.println((endTime - startTime)*1000);
                     Thread.sleep(17);
                 }
             }
@@ -138,10 +137,10 @@ public class Window extends JFrame implements KeyListener {
     // 裡面的有Temp的都是在測試
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) { // 左
-            keyReturn = -10;
+            keyReturn = -15;
             plane.movePlane();
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) { // 右
-            keyReturn = 10;
+            keyReturn = 15;
             plane.movePlane();
         } else {
             keyReturn = 0;
@@ -162,29 +161,68 @@ public class Window extends JFrame implements KeyListener {
 
     // 所有會出現在螢幕上的物件都要draw坐在這邊，每個物件 ***一定要有實作draw()***
     public void paint(Graphics g) {
-        super.paint(g); 
-        Graphics2D g2d = (Graphics2D) g;
-        startline.draw(g);
-        for(Enemy enemy : enemies) {
-            if(enemy != null) {
-                enemy.paint(g2d);
-            }
+        //super.paint(g);
+        
+        if(bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight()) {
+            bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         }
 
+        Graphics bufferedGraphics = bufferedImage.getGraphics();
+        bufferedGraphics.clearRect(0, 0, getWidth(), getHeight());
+
+        Graphics2D g2d = (Graphics2D) bufferedGraphics;
+        g2d.clearRect(0, 0, getWidth(), getHeight());
+        background.paint(g2d);
+        plane.paint(g2d);
+        
         for(Bullet bullet : bullets) {
             if(bullet != null) {
                 bullet.paint(g2d);
             }
         }
+        
+        for(Enemy enemy : enemies) {
+            if(enemy != null) {
+                enemy.paint(g2d);
+            }
+        }
+        
+        startline.draw(bufferedGraphics);
+        score.draw(bufferedGraphics);
+        reset.draw(bufferedGraphics);
+        close.draw(bufferedGraphics);
+        
+        for(Blood blood : bloods){
+            blood.draw(bufferedGraphics);
+        }
+        
+        
 
+        
+
+        g.drawImage(bufferedImage, 0, 0, this);
+
+        bufferedGraphics.dispose();
+        /* Graphics2D g2d = (Graphics2D) g;
         for(Blood blood : bloods){
             blood.draw(g);
         }
-        
+        startline.draw(g);
         score.draw(g);
         reset.draw(g);
         close.draw(g);
-        plane.paint(g2d);
+
+        for(Enemy enemy : enemies) {
+            if(enemy != null) {
+                enemy.paint(g2d);
+            }
+        }
+        for(Bullet bullet : bullets) {
+            if(bullet != null) {
+                bullet.paint(g2d);
+            }
+        }
+        plane.paint(g2d); */
     }
 
     public void bloodMinus(){

@@ -7,8 +7,8 @@ import java.awt.event.*;
 
 public class Score extends JPanel{
     private int score;
-    int x=950;
-    int y=50;
+    int x = 950;
+    int y = 50;
     Score(int init_score){
         this.score = init_score;
     }
@@ -21,8 +21,11 @@ public class Score extends JPanel{
         score += 1;
     }
     public void scoreMinus5(){
-        if(!(score - 5 < 0))
-        score -=5;
+        if(!(score - 5 < 0)) {
+            score -= 5;
+        } else {
+            score = 0;
+        }
     }
     public int returnScore(){
         return score;
