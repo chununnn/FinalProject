@@ -21,20 +21,24 @@ public class Window extends JFrame implements KeyListener {
     private static final int height = 720;
     private static final int enemiesMax = 15;
     private static final int bulletsMax = 25;
+
     boolean start = false;
+    private boolean died = false;
+
     private int keyReturn;
     private Blood[] bloods;
     public Score score;
     private Button reset;
     private Button close;
-    private boolean died = false;
-    StartLine startline = new StartLine();
-    Plane plane = new Plane(this);
+    
+    private StartLine startline = new StartLine();
+    private Plane plane = new Plane(this);
     private Enemy[] enemies;
     private Bullet[] bullets;
     
     private long enemyGenGap;
     private long bulletGenGap;
+    private int enemyGenSpeed;
 
     Window(String title) {
         this.setTitle(title); // 視窗標題
@@ -77,6 +81,7 @@ public class Window extends JFrame implements KeyListener {
             while(true) {
                 enemyGenGap = 0;
                 bulletGenGap = 0;
+                enemyGenSpeed = 1;
                 startline.changeColor(times++);
                 this.enemies = new Enemy[enemiesMax];
                 this.bullets = new Bullet[bulletsMax];
@@ -89,10 +94,12 @@ public class Window extends JFrame implements KeyListener {
                 while(start &&!died) {
                     double startTime = System.nanoTime();
                     
-                    if(enemyGenGap % 150 == 0) {
+                    if(enemyGenGap % (150 / enemyGenSpeed) == 0) {
                         Enemy stone = new Enemy(this, enemyIndex, (enemyGenGap / 3000) + 3);
                         enemies[enemyIndex % enemiesMax] = stone;
-                        enemyIndex++;
+                        if(++enemyIndex % 5 == 0) {
+                            enemyGenSpeed++;
+                        }
                     }
                     if(bulletGenGap % 20 == 0) {
                         Bullet newBullet = new Bullet(plane, bulletIndex);
