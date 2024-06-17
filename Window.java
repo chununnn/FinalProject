@@ -15,9 +15,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class Window extends JFrame implements KeyListener {
     private static final int width = 1080;
@@ -38,7 +35,6 @@ public class Window extends JFrame implements KeyListener {
     
     private long enemyGenGap;
     private long bulletGenGap;
-    private long painterGap;
 
     Window(String title) {
         this.setTitle(title); // 視窗標題
@@ -65,6 +61,7 @@ public class Window extends JFrame implements KeyListener {
             this.reset.setVisible(false);
             this.close.setVisible(false);
             this.died = false;
+            plane.respawn();
         //////////////////////////////////////////////////////////////// 
         });
         close.setActionListener(() -> {
@@ -121,7 +118,7 @@ public class Window extends JFrame implements KeyListener {
 
                     double endTime = System.nanoTime();
                     System.out.println((endTime - startTime)*1000);
-                    Thread.sleep(30);
+                    Thread.sleep(1);
                 }
             }
         } catch(InterruptedException e) {
@@ -230,13 +227,4 @@ public class Window extends JFrame implements KeyListener {
     private boolean collision(Rectangle R1, Rectangle R2) {
         return R1.intersects(R2);
     }
-    
-    public static void main(String[] args) throws InterruptedException {
-        /*Window window = */new Window("test");
-        /*while (true) {
-            window.move();
-        }*/
-        
-    }
-    
 }

@@ -44,4 +44,9 @@ public class Plane extends JPanel {
             g.drawImage(image, x, y, planeWidth, planeHeight, this);
         }
     }
+
+    public void respawn() {
+        this.x = (1080 - planeWidth) / 2;
+        this.y = 720 - planeHeight - 10;
+    }
 }
