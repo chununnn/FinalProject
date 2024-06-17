@@ -96,7 +96,7 @@ public class Window extends JFrame implements KeyListener {
                 }
                 while(start && !died) {
                     if(enemyGenGap % (150 / enemyGenSpeed) == 0) {
-                        Enemy stone = new Enemy(this, enemyIndex, (enemyGenGap / 3000) + 3);
+                        Enemy stone = new Enemy(this, enemyIndex, (enemyGenGap / 6000) + 2);
                         enemies[enemyIndex % enemiesMax] = stone;
                         if(++enemyIndex % 10 == 0) {
                             enemyGenSpeed++;
