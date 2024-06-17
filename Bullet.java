@@ -9,12 +9,14 @@ public class Bullet extends JPanel{
     private int y;
     public final int speed = 7;
     private Plane plane;
+    private int index;
     public boolean visiable = true;
 
-    public Bullet(Plane p) {  
+    public Bullet(Plane p, int index) {  
         plane = p;
         this.x = plane.getX() + 28;
         this.y = plane.getY() - 15;
+        this.index = index;
     }
 
     public Rectangle getBounds() {
@@ -44,5 +46,9 @@ public class Bullet extends JPanel{
     @Override
     public int getY() {
         return y;
+    }
+
+    public int getIndex() {
+        return this.index;
     }
 }

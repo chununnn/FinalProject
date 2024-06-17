@@ -23,6 +23,8 @@ import java.util.List;
 public class Window extends JFrame implements KeyListener {
     private static final int width = 1080;
     private static final int height = 720;
+    private static final int enemiesMax = 15;
+    private static final int bulletsMax = 25;
 
     private int keyReturn;
     private Blood[] bloods;
@@ -32,8 +34,8 @@ public class Window extends JFrame implements KeyListener {
     private boolean died = false;
     
     Plane plane = new Plane(this);
-    private List<Enemy> enemies;
-    private List<Bullet> bullets;
+    private Enemy[] enemies;
+    private Bullet[] bullets;
     
     private long enemyGenGap;
     private long bulletGenGap;
@@ -77,30 +79,39 @@ public class Window extends JFrame implements KeyListener {
 
         try {
             while(true) {
-                this.enemies = new ArrayList<>();
-                this.bullets = new ArrayList<>();
+                this.enemies = new Enemy[enemiesMax];
+                this.bullets = new Bullet[bulletsMax];
+                int bulletIndex = 0;
+                int enemyIndex = 0;
                 while(!died) {
                     double startTime = System.nanoTime();
                     if(enemyGenGap % 150 == 0) {
-                        Enemy stone = new Enemy(this);
-                        enemies.add(stone);
+                        Enemy stone = new Enemy(this, enemyIndex);
+                        enemies[enemyIndex % enemiesMax] = stone;
+                        enemyIndex++;
                     }
                     if(bulletGenGap % 20 == 0) {
-                        Bullet newBullet = new Bullet(plane);
-                        bullets.add(newBullet);
+                        Bullet newBullet = new Bullet(plane, bulletIndex);
+                        bullets[bulletIndex % bulletsMax] = newBullet;
+                        bulletIndex++;
                     }
     
                     for(Enemy enemy : Window.this.enemies) {
+                        if(enemy != null) {
                             enemy.moveEnemy();
+                        }
                     }
                     for(Bullet bullet : bullets) {
-                        bullet.moveBullet();
+                        if(bullet != null) {
+                            bullet.moveBullet();
+                        }
                     }
                     repaint();
                     determine(bullets, enemies, plane);
     
-                    enemyGenGap += 1;
-                    bulletGenGap += 1;
+                    enemyGenGap++;
+                    bulletGenGap ++;
+
                     double endTime = System.nanoTime();
                     System.out.println((endTime - startTime)*1000);
                     Thread.sleep(120);
@@ -147,10 +158,14 @@ public class Window extends JFrame implements KeyListener {
         close.draw(g);
 
         for(Enemy enemy : enemies) {
-            enemy.paint(g2d);
+            if(enemy != null) {
+                enemy.paint(g2d);
+            }
         }
         for(Bullet bullet : bullets) {
-            bullet.paint(g2d);
+            if(bullet != null) {
+                bullet.paint(g2d);
+            }
         }
         plane.paint(g2d);
     }
@@ -167,42 +182,35 @@ public class Window extends JFrame implements KeyListener {
     }
 
  
-    public void determine(List<Bullet> bullets, List<Enemy> enemies, Plane plane) {
+    public void determine(Bullet[] bullets, Enemy[] enemies, Plane plane) {
         if (bullets == null || enemies == null) return;
     
-        Iterator<Bullet> bulletIte = bullets.iterator();
-        while (bulletIte.hasNext()) {
-            Bullet bullet = bulletIte.next();
-            boolean bulletRemoved = false;
-    
-            Iterator<Enemy> enemyIte = enemies.iterator();
-            while (enemyIte.hasNext() && !bulletRemoved) {
-                Enemy enemy = enemyIte.next();
-                if (bullet.getBounds().intersects(enemy.getBounds())) {
-                    enemy.enemyblood--;
-                    score.scorePlus();
-                    if (enemy.enemyblood == 0) {
-                        enemyIte.remove();
+        for(Bullet bullet : bullets) {
+            if(bullet != null) {
+                for(Enemy enemy : enemies) {
+                    if(enemy != null) {
+                        if(bullet.getBounds().intersects(enemy.getBounds())) {
+                            enemy.enemyblood--;
+                            score.scorePlus();
+                            bullets[bullet.getIndex() % bulletsMax] = null;
+                            if (enemy.enemyblood == 0) {
+                                enemies[enemy.getIndex() % enemiesMax] = null;
+                            }
+                        }
                     }
-                    bulletIte.remove();
-                    bulletRemoved = true;
                 }
             }
-    
-            if (!bulletRemoved && bullet.getY() == 0) {
-                bulletIte.remove();
-            }
         }
-    
-        Iterator<Enemy> enemyIte = enemies.iterator();
-        while (enemyIte.hasNext()) {
-            Enemy enemy = enemyIte.next();
-            if (collision(plane.getBounds(), enemy.getBounds())) {
-                enemyIte.remove();
-                bloodMinus();
-            } else if (enemy.getY() == height - enemy.enemySize) {
-                enemyIte.remove();
-                score.scoreMinus5();
+
+        for(Enemy enemy : enemies) {
+            if(enemy != null) {
+                if (collision(plane.getBounds(), enemy.getBounds())) {
+                    enemies[enemy.getIndex() % enemiesMax] = null;
+                    bloodMinus();
+                } else if (enemy.getY() == height - enemy.enemySize) {
+                    enemies[enemy.getIndex() % enemiesMax] = null;
+                    score.scoreMinus5();
+                }
             }
         }
     }

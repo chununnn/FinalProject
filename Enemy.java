@@ -12,9 +12,11 @@ public class Enemy extends JPanel{
     public int enemyblood = 5;
     private final int speed = 3; // 這是石頭要移動的單位
     private Window window;
+    private int index;
     public boolean visiable = true;
 
-    public Enemy(Window w) {
+    public Enemy(Window w, int index) {
+        this.index = index;
         this.window = w;
     }
 
@@ -51,12 +53,16 @@ public class Enemy extends JPanel{
     }
 
     public void paint(Graphics2D g) {
-        g.setColor(Color.BLACK);
+        g.setColor(Color.GRAY);
         g.fillOval(x, y, enemySize, enemySize);
     }
 
     @Override
     public int getY() {
         return this.y;
+    }
+
+    public int getIndex() {
+        return this.index;
     }
 }
