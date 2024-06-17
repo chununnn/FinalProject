@@ -118,7 +118,7 @@ public class Window extends JFrame implements KeyListener {
 
                     double endTime = System.nanoTime();
                     System.out.println((endTime - startTime)*1000);
-                    Thread.sleep(1);
+                    Thread.sleep(17);
                 }
             }
         } catch(InterruptedException e) {
