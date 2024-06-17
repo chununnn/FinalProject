@@ -10,14 +10,15 @@ public class Enemy extends JPanel{
     int x = random.nextInt(720 - enemySize);
     int y = enemySize;
     public int enemyblood = 5;
-    private final int speed = 3; // 這是石頭要移動的單位
+    private long speed; // 這是石頭要移動的單位
     private Window window;
     private int index;
     public boolean visiable = true;
 
-    public Enemy(Window w, int index) {
+    public Enemy(Window w, int index, long speed) {
         this.index = index;
         this.window = w;
+        this.speed = speed;
     }
 
     public int EBloodMinusOne() {
@@ -26,11 +27,6 @@ public class Enemy extends JPanel{
 
     public Rectangle getBounds() {
         return new Rectangle(x, y, enemySize, enemySize);
-    }
-
-    // 檢測有無跟飛機碰撞
-    private boolean collisionPlane() {
-        return window.plane.getBounds().intersects(getBounds());
     }
 
     // 石頭重生
@@ -45,11 +41,6 @@ public class Enemy extends JPanel{
         } else {
             y += speed;
         }
-
-        /* if (collisionPlane()) {
-            window.bloodMinus();
-            respawn();
-        } */
     }
 
     public void paint(Graphics2D g) {

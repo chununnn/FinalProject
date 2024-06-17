@@ -86,6 +86,7 @@ public class Window extends JFrame implements KeyListener {
                 this.bullets = new Bullet[bulletsMax];
                 int bulletIndex = 0;
                 int enemyIndex = 0;
+                long speedLevel = 0;
                 if(!died){
                 repaint();
                 Thread.sleep(17);
@@ -94,7 +95,7 @@ public class Window extends JFrame implements KeyListener {
                     double startTime = System.nanoTime();
                     
                     if(enemyGenGap % 150 == 0) {
-                        Enemy stone = new Enemy(this, enemyIndex);
+                        Enemy stone = new Enemy(this, enemyIndex, (enemyGenGap / 2100) + 5);
                         enemies[enemyIndex % enemiesMax] = stone;
                         enemyIndex++;
                     }
