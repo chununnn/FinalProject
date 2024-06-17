@@ -32,6 +32,7 @@ public class Window extends JFrame implements KeyListener {
     public Score score;
     private Button reset;
     private Button close;
+    private Background background = new Background();
     
     private StartLine startline = new StartLine();
     private Plane plane = new Plane(this);
@@ -172,10 +173,9 @@ public class Window extends JFrame implements KeyListener {
         Graphics2D g2d = (Graphics2D) bufferedGraphics;
         g2d.clearRect(0, 0, getWidth(), getHeight());
 
-        
+        background.paintComponent(bufferedGraphics);
 
         for(Blood blood : bloods){
-            //System.err.println("Painting blood.");
             blood.draw(bufferedGraphics);
         }
         startline.draw(bufferedGraphics);
