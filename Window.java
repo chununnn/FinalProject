@@ -19,7 +19,7 @@ import java.awt.event.*;
 public class Window extends JFrame implements KeyListener {
     private static final int width = 1080;
     private static final int height = 720;
-    private static final int enemiesMax = 15;
+    private static final int enemiesMax = 50;
     private static final int bulletsMax = 25;
 
     boolean start = false;
@@ -97,7 +97,7 @@ public class Window extends JFrame implements KeyListener {
                     if(enemyGenGap % (150 / enemyGenSpeed) == 0) {
                         Enemy stone = new Enemy(this, enemyIndex, (enemyGenGap / 3000) + 3);
                         enemies[enemyIndex % enemiesMax] = stone;
-                        if(++enemyIndex % 5 == 0) {
+                        if(++enemyIndex % 10 == 0) {
                             enemyGenSpeed++;
                         }
                     }
@@ -164,24 +164,26 @@ public class Window extends JFrame implements KeyListener {
     public void paint(Graphics g) {
         super.paint(g); 
         Graphics2D g2d = (Graphics2D) g;
-        for(Blood blood : bloods){
-            blood.draw(g);
-        }
         startline.draw(g);
-        score.draw(g);
-        reset.draw(g);
-        close.draw(g);
-
         for(Enemy enemy : enemies) {
             if(enemy != null) {
                 enemy.paint(g2d);
             }
         }
+
         for(Bullet bullet : bullets) {
             if(bullet != null) {
                 bullet.paint(g2d);
             }
         }
+
+        for(Blood blood : bloods){
+            blood.draw(g);
+        }
+        
+        score.draw(g);
+        reset.draw(g);
+        close.draw(g);
         plane.paint(g2d);
     }
 
