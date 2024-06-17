@@ -32,7 +32,7 @@ public class Window extends JFrame implements KeyListener {
     private Button reset;
     private Button close;
     private boolean died = false;
-    startLine startline = new startLine();
+    StartLine startline = new StartLine();
     Plane plane = new Plane(this);
     private Enemy[] enemies;
     private Bullet[] bullets;
